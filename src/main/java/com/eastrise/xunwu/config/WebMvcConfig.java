@@ -36,7 +36,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements Application
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 
     /**
@@ -48,7 +48,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter implements Application
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
-        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setCharacterEncoding("UTF-8");//设置编码
         templateResolver.setCacheable(thymeleafCacheEnable);
         return templateResolver;
     }
