@@ -1,6 +1,7 @@
 package com.eastrise.xunwu.base;
 
 import com.eastrise.xunwu.security.AuthProvider;
+import com.eastrise.xunwu.security.LoginUrlEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,16 +25,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/login").permitAll()
-                .antMatchers("/admin/login").permitAll()
-                .antMatchers("/static/**").permitAll()
+                .antMatchers("/admin/login").permitAll() // 管理员登录入口
+                .antMatchers("/static/**").permitAll() // 静态资源
+                .antMatchers("/user/login").permitAll() // 用户登录入口
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN","USER")
-                .antMatchers("/api/user/**").hasAnyRole("ADMIN","USER")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/user/**").hasAnyRole("ADMIN",
+                "USER")
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login")//配置角色登录入口
-                .and();
+                .loginProcessingUrl("/login") // 配置角色登录处理入口
+
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout/page")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(urlEntryPoint())
+
+             //   .accessDeniedPage("/403")
+        ;
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
     }
@@ -50,5 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthProvider authProvider(){
         return new AuthProvider();
+    }
+
+    @Bean
+    public LoginUrlEntryPoint urlEntryPoint() {
+        return new LoginUrlEntryPoint("/user/login");
     }
 }
