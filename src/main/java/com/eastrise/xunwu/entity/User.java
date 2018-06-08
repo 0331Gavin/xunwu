@@ -57,7 +57,7 @@ public class User  implements UserDetails {
         this.name = name;
     }
 
-    @Transient
+    @Transient //该注解使它透明，不需要JPA验证
     private List<GrantedAuthority> authorityList;
 
     public List<GrantedAuthority> getAuthorityList() {

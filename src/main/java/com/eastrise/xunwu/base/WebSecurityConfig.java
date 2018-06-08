@@ -1,6 +1,8 @@
 package com.eastrise.xunwu.base;
 
+import com.eastrise.xunwu.security.AuthProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * */
     @Autowired
     public void configGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN").and();
-
+        //auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN").and();
+        auth.authenticationProvider(authProvider())
+                .eraseCredentials(true);//擦除密码
+    }
+    @Bean
+    public AuthProvider authProvider(){
+        return new AuthProvider();
     }
 }
