@@ -1,6 +1,7 @@
-package com.eastrise.xunwu.base;
+package com.eastrise.xunwu.config;
 
 import com.eastrise.xunwu.security.AuthProvider;
+import com.eastrise.xunwu.security.LoginAuthFailHandler;
 import com.eastrise.xunwu.security.LoginUrlEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login") // 配置角色登录处理入口
-
+                .failureHandler(authFailHandler())
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(urlEntryPoint())
 
-             //   .accessDeniedPage("/403")
+                .accessDeniedPage("/403")
         ;
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
@@ -69,5 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LoginUrlEntryPoint urlEntryPoint() {
         return new LoginUrlEntryPoint("/user/login");
+    }
+
+    @Bean
+    public LoginAuthFailHandler authFailHandler(){
+        return new LoginAuthFailHandler(urlEntryPoint());
     }
 }

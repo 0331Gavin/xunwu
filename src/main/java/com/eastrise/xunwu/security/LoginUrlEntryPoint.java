@@ -25,7 +25,7 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
     public LoginUrlEntryPoint(String loginFormUrl) {
         super(loginFormUrl);
         authEntryPointMap = new HashMap<>();
-
+        System.out.println(" loginFormUrl is "+loginFormUrl);
         // 普通用户登录入口映射
         authEntryPointMap.put("/user/**", "/user/login");
         // 管理员登录入口映射
@@ -42,16 +42,12 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
     @Override
     protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response,
                                                      AuthenticationException exception) {
+        System.out.println(request.getRequestURI());
         String uri = request.getRequestURI().replace(request.getContextPath(), "");
-        System.out.println(uri+"------------------------");
-        System.out.println(uri+"------------------------");
-        System.out.println(uri+"------------------------");
-        System.out.println(uri+"------------------------");
-
-
+        System.out.println("uri is "+uri);
         for (Map.Entry<String, String> authEntry : this.authEntryPointMap.entrySet()) {
-            System.out.println(authEntry.getKey());
             if (this.pathMatcher.match(authEntry.getKey(), uri)) {
+                System.out.println(authEntry.getValue());
                 return authEntry.getValue();
             }
         }
