@@ -62,10 +62,14 @@ public class ApiResponse {
     public static ApiResponse ofStatus(Status status){
         return new ApiResponse(status.getCode(),status.getStandardMessage(),null);
     }
+    public static ApiResponse ofSuccess(Object data) {
+        return new ApiResponse(Status.SUCCESS.getCode(), Status.SUCCESS.getStandardMessage(), data);
+    }
 
     public enum Status{
         SUCCESS(200,"OK"),
         BAS_REQUEST(400,"Bad Request"),
+        NOT_FOUND(404,"NOT FOUNT"),
         INTERNAL_SERVER_ERROR(500,"Unknown Internal Error"),
         NOT_VALID_PARAM(4005, "Not Valid Params"),
         NOT_SUPPORTED_OPERATION(4006,"Operation Not Supported"),

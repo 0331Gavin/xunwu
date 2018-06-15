@@ -11,13 +11,15 @@ import javax.persistence.Table;
  * Created by 瓦力.
  */
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "subway_station")
+public class SubwayStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long userId;
+
+    @Column(name = "subway_id")
+    private Long subwayId;
+
     private String name;
 
     public Long getId() {
@@ -28,12 +30,12 @@ public class Role {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getSubwayId() {
+        return subwayId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setSubwayId(Long subwayId) {
+        this.subwayId = subwayId;
     }
 
     public String getName() {

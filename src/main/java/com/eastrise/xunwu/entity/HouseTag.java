@@ -11,14 +11,24 @@ import javax.persistence.Table;
  * Created by 瓦力.
  */
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "house_tag")
+public class HouseTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long userId;
+
+    @Column(name = "house_id")
+    private Long houseId;
+
     private String name;
+
+    public HouseTag() {
+    }
+
+    public HouseTag(Long houseId, String name) {
+        this.houseId = houseId;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -28,12 +38,12 @@ public class Role {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getHouseId() {
+        return houseId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 
     public String getName() {

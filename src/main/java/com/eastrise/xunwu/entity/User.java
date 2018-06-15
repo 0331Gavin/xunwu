@@ -1,20 +1,26 @@
 package com.eastrise.xunwu.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 /**
- * create by gzq on 2018/6/1 14:56
+ * Created by 瓦力.
  */
 @Entity
 @Table(name = "user")
-public class User  implements UserDetails {
-
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,7 +63,7 @@ public class User  implements UserDetails {
         this.name = name;
     }
 
-    @Transient //该注解使它透明，不需要JPA验证
+    @Transient
     private List<GrantedAuthority> authorityList;
 
     public List<GrantedAuthority> getAuthorityList() {
